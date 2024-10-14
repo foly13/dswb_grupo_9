@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title Usuarios
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+    link(rel="stylesheet", href="/styles.css")
+  body
+    h1.text-center Lista de Usuarios
+    ul
+      each user in users
+        li.text-center #{user.nombre} - Área: #{user.area}
+        .d-flex.justify-content-center.mb-3
+          a.btn.btn-primary.btn-lg.m-2(href='') Editar usuario
+          a.btn.btn-danger.btn-lg.m-2(href='') Eliminar usuario

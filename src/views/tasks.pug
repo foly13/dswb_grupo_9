@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title Tareas
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+    link(rel="stylesheet", href="/styles.css")
+  body
+    h1.text-center Lista de Tareas
+    if message
+      .alert.alert-success.text-center #{message} // Muestra el mensaje
+    ul
+      each task in tasks
+        li.text-center #{task.Tarea} - Responsable ID: #{task.idResponsable} - Estado: #{task.Estado}
+        .d-flex.justify-content-center.mb-3
+          a.btn.btn-primary.btn-lg.m-2(href=`/tasks/${task.id}/edit`) Editar tarea
+          a.btn.btn-danger.btn-lg.m-2(href=`/tasks/${task.id}/delete`) Eliminar tarea
+

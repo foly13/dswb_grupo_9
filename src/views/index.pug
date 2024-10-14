@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+    link(rel="stylesheet", href="/styles.css")
+  body.bodyIndex
+    .container
+      .row.justify-content-center
+        .col-md-6
+          h1.text-center Gestión de Tareas
+            .d-flex.justify-content-center.mb-3
+              a.btn.btn-primary.btn-lg.m-2(href='/tasks') Ver Tareas
+              a.btn.btn-primary.btn-lg.m-2(href='') Nueva Tarea
+        .col-md-6
+           h1.text-center Gestión de Usuarios
+            .d-flex.justify-content-center.mb-3
+              a.btn.btn-primary.btn-lg.m-2(href='/users') Ver Usuarios
+              a.btn.btn-primary.btn-lg.m-2(href='') Nuevo Usuario

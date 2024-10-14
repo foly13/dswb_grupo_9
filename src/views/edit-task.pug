@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title Editar Tarea
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+    link(rel="stylesheet", href="/styles.css")
+  body
+    h1.text-center Editar Tarea
+    form(action=`/tasks/${task.id}?_method=PUT`, method='POST')
+      .form-group
+        label(for='Tarea') Tarea
+        input#Tarea.form-control(type='text', name='Tarea', value=task.Tarea, required)
+      .form-group
+        label(for='idResponsable') ID Responsable
+        input#idResponsable.form-control(type='number', name='idResponsable', value=task.idResponsable, required)
+      .form-group
+        label(for='Estado') Estado
+        select#Estado.form-control(name='Estado')
+          option(value='Pendiente', selected=task.Estado === 'Pendiente') Pendiente
+          option(value='En Progreso', selected=task.Estado === 'En Progreso') En Progreso
+          option(value='Completado', selected=task.Estado === 'Completado') Completado
+      .form-group
+        label(for='Prioridad') Prioridad
+        select#Prioridad.form-control(name='Prioridad')
+          option(value='Baja', selected=task.Prioridad === 'Baja') Baja
+          option(value='Media', selected=task.Prioridad === 'Media') Media
+          option(value='Alta', selected=task.Prioridad === 'Alta') Alta
+      button.btn.btn-primary(type='submit') Guardar Cambios
+
