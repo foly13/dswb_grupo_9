@@ -1,18 +1,19 @@
-body{
-background-color: whitesmoke;
+body {
+	background-color: whitesmoke;
 }
-.bodyIndex{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: whitesmoke;
-  }
-h1{
-    font-size: 3em;
+.bodyIndex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background-color: whitesmoke;
 }
-li{
-    font-size: 1.5em;
-    list-style: none;
-    padding: 2%;
+h1 {
+	font-size: 3em;
+	font-weight: bold;
+}
+li {
+	font-size: 1.5em;
+	list-style: none;
+	padding: 2%;
 }
