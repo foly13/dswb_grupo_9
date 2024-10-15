@@ -1,21 +1,5 @@
 [
   {
-    "id": 125,
-    "Area": "Compras",
-    "Tarea": "Seguimiento de entrega de insumos de oficina",
-    "idResponsable": 6,
-    "idEstado": 3,
-    "idPrioridad": 1
-  },
-  {
-    "id": 126,
-    "Area": "Compras",
-    "Tarea": "Evaluar nuevos proveedores",
-    "idResponsable": 1,
-    "idEstado": 1,
-    "idPrioridad": 2
-  },
-  {
     "id": 127,
     "Area": "Compras",
     "Tarea": "Actualizar base de datos de proveedores",
@@ -59,7 +43,7 @@
     "id": 1212,
     "Area": "Ventas",
     "Tarea": "Análisis de mercado para el próximo trimestre",
-    "idResponsable": 5,
+    "idResponsable": 4,
     "idEstado": 2,
     "idPrioridad": 3
   },
@@ -107,8 +91,8 @@
     "id": 1218,
     "Area": "Inventario",
     "Tarea": "Coordinación de reposición de producto Z",
-    "idResponsable": 10,
-    "idEstado": 1,
+    "idResponsable": 11,
+    "idEstado": 2,
     "idPrioridad": 3
   },
   {
