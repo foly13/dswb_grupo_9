@@ -24,10 +24,14 @@ app.use(express.urlencoded({ extended: true }));
 // Importa rutas
 const taskRoutes = require('./routes/tasks');
 const userRoutes = require('./routes/users');
+const loginRoutes = require('./routes/login');
+const adminRoutes = require('./routes/admin');
 
 // Usa las rutas
 app.use('/tasks', taskRoutes);
 app.use('/users', userRoutes);
+app.use('/login', loginRoutes);  
+app.use('/admin', adminRoutes);
 
 // Página de inicio
 app.get('/', (req, res) => {
