@@ -58,6 +58,44 @@ exports.getAllTasks = async (req, res) => {
     }
 };
 
+
+
+//mostrar detalles de tarea
+exports.showTaskDetails = async (req, res) => {
+    try {
+        const tasks = await getTasks();
+        const users = await getUsers();
+        const priorities = await getPriorities();
+        const statuses = await getStatuses();
+        const task = tasks.find((task) => task.id === parseInt(req.params.id));
+
+        if (task) {
+            // Obtener los detalles del responsable, prioridad y estado
+            const responsable = users.find(user => user.id === task.idResponsable);
+            const prioridad = priorities.find(priority => priority.id === task.idPrioridad);
+            const estado = statuses.find(status => status.id === task.idEstado);
+
+            // Agregar los nombres al objeto de la tarea
+            const taskWithDetails = {
+                ...task,
+                responsableNombre: responsable ? responsable.nombre : 'Desconocido',
+                prioridadNombre: prioridad ? prioridad.nombre : 'Sin prioridad',
+                Estado: estado ? estado.nombre : 'Sin estado'
+            };
+
+            // Renderizar la vista con los detalles de la tarea
+            res.render('task-detail', { task: taskWithDetails });
+        } else {
+            res.status(404).send('Tarea no encontrada');
+        }
+    } catch (error) {
+        res.status(500).send('Error al obtener la tarea para mostrar los detalles');
+    }
+};
+
+
+
+
 // Mostrar formulario de edición
 exports.getEditTaskForm = async (req, res) => {
     try {
