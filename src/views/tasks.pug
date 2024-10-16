@@ -6,12 +6,22 @@ html
     link(rel="stylesheet", href="/styles.css")
   body
     h1.text-center Lista de Tareas
+
     if message
-      .alert.alert-success.text-center #{message} // Muestra el mensaje
+      .alert.alert-success.text-center(role='alert')= message
+      script.
+        setTimeout(function() {
+          window.location.href = "/tasks";
+        }, 3000); 
     ul
       each task in tasks
-        li.text-center #{task.Tarea} - Responsable ID: #{task.idResponsable} - Estado: #{task.Estado}
+        li.text-center #{task.Tarea} - Responsable: #{task.responsableNombre} - Estado: #{task.Estado} - Prioridad: #{task.prioridadNombre}
         .d-flex.justify-content-center.mb-3
-          a.btn.btn-primary.btn-lg.m-2(href=`/tasks/${task.id}/edit`) Editar tarea
-          a.btn.btn-danger.btn-lg.m-2(href=`/tasks/${task.id}/delete`) Eliminar tarea
+          a.btn.btn-primary.btn-lg.m-2(href=`/tasks/${task.id}`) Ver tarea
+    // Script para la confirmación
+    script.
+      function confirmDelete() {
+        return confirm('¿Está seguro que quiere eliminar esta tarea?');
+      }
 
+  

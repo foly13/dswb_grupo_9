@@ -11,19 +11,20 @@ html
         label(for='Tarea') Tarea
         input#Tarea.form-control(type='text', name='Tarea', value=task.Tarea, required)
       .form-group
-        label(for='idResponsable') ID Responsable
-        input#idResponsable.form-control(type='number', name='idResponsable', value=task.idResponsable, required)
+        label(for='idResponsable') Responsable
+        select#idResponsable.form-control(name='idResponsable', required)
+          each user in users
+            option(value=user.id, selected=task.idResponsable === user.id) 
+              | #{user.nombre} (ID: #{user.id})
       .form-group
         label(for='Estado') Estado
-        select#Estado.form-control(name='Estado')
-          option(value='Pendiente', selected=task.Estado === 'Pendiente') Pendiente
-          option(value='En Progreso', selected=task.Estado === 'En Progreso') En Progreso
-          option(value='Completado', selected=task.Estado === 'Completado') Completado
+        select#Estado.form-control(name='idEstado')
+          each status in statuses
+            option(value=status.id, selected=task.idEstado === status.id) #{status.nombre}
       .form-group
         label(for='Prioridad') Prioridad
-        select#Prioridad.form-control(name='Prioridad')
-          option(value='Baja', selected=task.Prioridad === 'Baja') Baja
-          option(value='Media', selected=task.Prioridad === 'Media') Media
-          option(value='Alta', selected=task.Prioridad === 'Alta') Alta
+        select#Prioridad.form-control(name='idPrioridad')
+          each priority in priorities
+            option(value=priority.id, selected=task.idPrioridad === priority.id) #{priority.nombre}
       button.btn.btn-primary(type='submit') Guardar Cambios
 

@@ -14,8 +14,8 @@ app.set('view engine', 'pug');
 
 // Middleware para parsear JSON
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 
 //para usar formulario
