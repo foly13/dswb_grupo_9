@@ -8,8 +8,6 @@ router.get('/:id', tasksController.showTaskDetails);
 router.get('/:id/edit', tasksController.getEditTaskForm);
 router.put('/:id', tasksController.updateTask);
 router.delete('/:id', tasksController.deleteTask);
-
-// Definir rutas y asociarlas con los métodos del controlador
 router.get('/', tasksController.getAllTasks);
 module.exports = router;
 
