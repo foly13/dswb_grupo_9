@@ -76,5 +76,17 @@
     "nombre": "Pepito Garcia",
     "area": "Ventas",
     "contraseña": "123"
+  },
+  {
+    "id": 14,
+    "nombre": "Ricardo Ford",
+    "area": "Inventario",
+    "contraseña": "1313"
+  },
+  {
+    "id": 15,
+    "nombre": "Lita Delazari",
+    "area": "Ventas",
+    "contraseña": "1414"
   }
 ]

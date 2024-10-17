@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 const router = express.Router();
 
@@ -9,17 +9,23 @@ router.get('/', (req, res) => {
 });
 
 // Ruta para procesar el formulario y agregar empleados
-router.post('/add-employee', (req, res) => {
+router.post('/add-employee', async (req, res) => {
   const { nombre, area, contraseña } = req.body;
 
   // Ruta del archivo users.json
   const usersFilePath = path.join(__dirname, '../data/users.json');
-
+  try {
   // Leer el archivo users.json
-  fs.readFile(usersFilePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error al leer el archivo:', err);
-      return res.status(500).send('Error al leer los usuarios');
+  let data;
+    try {
+      data = await fs.readFile(usersFilePath, { encoding: 'utf8' });
+    } catch (err) {
+      // Si no existe el archivo o está vacío, iniciamos una lista vacía
+      if (err.code === 'ENOENT') {
+        data = '[]';
+      } else {
+        throw err; // Si es otro tipo de error, lo lanzamos
+      }
     }
 
     // Convertir el contenido del archivo en un objeto JSON
@@ -37,16 +43,13 @@ router.post('/add-employee', (req, res) => {
     users.push(newUser);
 
     // Escribir los nuevos datos en el archivo
-    fs.writeFile(usersFilePath, JSON.stringify(users, null, 2), (err) => {
-      if (err) {
-        console.error('Error al escribir el archivo:', err);
-        return res.status(500).send('Error al guardar el usuario');
-      }
+    await fs.writeFile(usersFilePath, JSON.stringify(users, null, 2));
 
       // Redirigir al panel de administración con un mensaje de éxito
       res.redirect('/admin');
-    });
-  });
+  } catch (err) {
+    console.error('Error al manejar el archivo de usuarios:', err);
+    res.status(500).send('Error en el sistema. Intente más tarde.');
+  }
 });
-
 module.exports = router;
