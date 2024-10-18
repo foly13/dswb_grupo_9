@@ -1,5 +1,17 @@
 [
   {
+    "id": 1,
+    "nombre": "Juan Pérez",
+    "area": "Compras",
+    "contraseña": "11"
+  },
+  {
+    "id": 2,
+    "nombre": "Laura Martínez",
+    "area": "Compras",
+    "contraseña": "22"
+  },
+  {
     "id": 3,
     "nombre": "Pedro Fernandez",
     "area": "Compras",
@@ -58,5 +70,23 @@
     "nombre": "Sofia Lopez",
     "area": "Inventario",
     "contraseña": "1212"
+  },
+  {
+    "id": 13,
+    "nombre": "Pepito Garcia",
+    "area": "Ventas",
+    "contraseña": "123"
+  },
+  {
+    "id": 14,
+    "nombre": "Ricardo Ford",
+    "area": "Inventario",
+    "contraseña": "1313"
+  },
+  {
+    "id": 15,
+    "nombre": "Lita Delazari",
+    "area": "Ventas",
+    "contraseña": "1414"
   }
 ]

@@ -1,162 +1,162 @@
 [
   {
-    "id": 123,
+    "id":123,
     "Area": "Compras",
     "Tarea": "Solicitar cotización para proveedor",
-    "idResponsable": "5",
-    "Estado": "Pendiente",
-    "Prioridad": "Media"
+    "idResponsable": 1,
+    "idEstado": 1,
+    "idPrioridad": 3
   },
-  {
-    "id": 124,
+  { 
+    "id":124,
     "Area": "Compras",
     "Tarea": "Gestión de órdenes de compra para el mes próximo",
-    "idResponsable": "3",
-    "Estado": "Pendiente",
-    "Prioridad": "Alta"
+    "idResponsable": 2,
+    "idEstado": 2,
+    "idPrioridad": 2
   },
   {
-    "id": 125,
+    "id":125,
     "Area": "Compras",
     "Tarea": "Seguimiento de entrega de insumos de oficina",
     "idResponsable": 3,
-    "Estado": "Completado",
-    "Prioridad": "Baja"
+    "idEstado": 3,
+    "idPrioridad": 1
   },
   {
-    "id": 126,
+    "id":126,
     "Area": "Compras",
     "Tarea": "Evaluar nuevos proveedores",
-    "idResponsable": "2",
-    "Estado": "En Progreso",
-    "Prioridad": "Alta"
+    "idResponsable": 1,
+    "idEstado": 1,
+    "idPrioridad": 2
   },
   {
-    "id": 127,
+    "id":127,
     "Area": "Compras",
     "Tarea": "Actualizar base de datos de proveedores",
     "idResponsable": 2,
-    "Estado": "En Progreso",
-    "Prioridad": "Baja"
+    "idEstado": 2,
+    "idPrioridad": 1
   },
-  {
-    "id": 128,
+  { 
+    "id":128,
     "Area": "Ventas",
     "Tarea": "Cierre de venta con cliente Y",
     "idResponsable": 4,
-    "Estado": "En Progreso",
-    "Prioridad": "Alta"
+    "idEstado": 2,
+    "idPrioridad": 3
   },
   {
-    "id": 129,
+    "id":129,
     "Area": "Ventas",
     "Tarea": "Prospección de nuevos clientes en la región Z",
     "idResponsable": 5,
-    "Estado": "Pendiente",
-    "Prioridad": "Alta"
+    "idEstado": 1,
+    "idPrioridad": 3
   },
   {
-    "id": 1210,
+    "id":1210,
     "Area": "Ventas",
     "Tarea": "Seguimiento de clientes potenciales",
     "idResponsable": 6,
-    "Estado": "Completado",
-    "Prioridad": "Media"
+    "idEstado": 3,
+    "idPrioridad": 2
   },
   {
-    "id": 1211,
+    "id":1211,
     "Area": "Ventas",
     "Tarea": "Preparar presentación de ventas",
     "idResponsable": 4,
-    "Estado": "Pendiente",
-    "Prioridad": "Media"
+    "idEstado": 1,
+    "idPrioridad": 2
   },
   {
-    "id": 1212,
+    "id":1212,
     "Area": "Ventas",
     "Tarea": "Análisis de mercado para el próximo trimestre",
     "idResponsable": 5,
-    "Estado": "En Progreso",
-    "Prioridad": "Alta"
+    "idEstado": 2,
+    "idPrioridad": 3
   },
   {
-    "id": 1213,
+    "id":1213,
     "Area": "Producción",
     "Tarea": "Planificación de producción para octubre",
     "idResponsable": 7,
-    "Estado": "Completado",
-    "Prioridad": "Media"
+    "idEstado": 3,
+    "idPrioridad": 2
   },
   {
-    "id": 1214,
+    "id":1214,
     "Area": "Producción",
     "Tarea": "Mantenimiento preventivo de maquinaria",
     "idResponsable": 8,
-    "Estado": "En Progreso",
-    "Prioridad": "Alta"
+    "idEstado": 2,
+    "idPrioridad": 3
   },
   {
-    "id": 1215,
+    "id":1215,
     "Area": "Producción",
     "Tarea": "Evaluación de calidad de productos terminados",
     "idResponsable": 9,
-    "Estado": "Completado",
-    "Prioridad": "Media"
+    "idEstado": 3,
+    "idPrioridad": 2
   },
   {
-    "id": 1216,
+    "id":1216,
     "Area": "Producción",
     "Tarea": "Ajuste de procesos de producción",
     "idResponsable": 7,
-    "Estado": "En Progreso",
-    "Prioridad": "Media"
+    "idEstado": 2,
+    "idPrioridad": 2
   },
   {
-    "id": 1217,
+    "id":1217,
     "Area": "Producción",
     "Tarea": "Capacitación del personal en nuevos procesos de producción",
     "idResponsable": 8,
-    "Estado": "Completado",
-    "Prioridad": "Baja"
+    "idEstado": 3,
+    "idPrioridad": 1
   },
   {
-    "id": 1218,
+    "id":1218,
     "Area": "Inventario",
     "Tarea": "Coordinación de reposición de producto Z",
     "idResponsable": 10,
-    "Estado": "Pendiente",
-    "Prioridad": "Alta"
+    "idEstado": 1,
+    "idPrioridad": 3
   },
   {
-    "id": 1219,
+    "id":1219,
     "Area": "Inventario",
     "Tarea": "Planificación de inventario físico",
     "idResponsable": 10,
-    "Estado": "Completado",
-    "Prioridad": "Media"
+    "idEstado": 3,
+    "idPrioridad": 2
   },
   {
-    "id": 1220,
+    "id":1220,
     "Area": "Inventario",
     "Tarea": "Monitoreo de stock de insumos críticos",
     "idResponsable": 12,
-    "Estado": "Pendiente",
-    "Prioridad": "Alta"
+    "idEstado": 1,
+    "idPrioridad": 3
   },
   {
-    "id": 1221,
+    "id":1221,
     "Area": "Inventario",
     "Tarea": "Planificación semanal de reportes de inventario",
     "idResponsable": 10,
-    "Estado": "Pendiente",
-    "Prioridad": "Media"
+    "idEstado": 1,
+    "idPrioridad": 2
   },
   {
-    "id": 1222,
+    "id":1222,
     "Area": "Inventario",
     "Tarea": "Coordinación de auditorías de inventario",
     "idResponsable": 11,
-    "Estado": "Completado",
-    "Prioridad": "Media"
+    "idEstado": 3,
+    "idPrioridad": 2
   }
 ]

@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet", href="/styles.css")
+  body(class="bodyIndex")
+    h1= title
+    h2 Agregar nuevo empleado
+    form(method="POST" action="/admin/add-employee")
+      label Nombre:
+      input(type="text" name="nombre" required)
+      br
+      label Area:
+      input(type="text" name="area" required)
+      br
+      label Contraseña:
+      input(type="password" name="contraseña" required) 
+      br
+      button(type="submit") Agregar
