@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title Editar Usuario
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+  body
+    h1.text-center Editar Usuario
+
+    if success
+      div.alert.alert-success.text-center
+        | Cambios guardados exitosamente
+
+    form(action=`/users/${user.id}?_method=PUT` method="POST")
+      div.form-group
+        label(for="nombre") Nombre
+        input.form-control(type="text" id="nombre" name="nombre" value=user.nombre)
+      div.form-group
+        label(for="area") Área
+        input.form-control(type="text" id="area" name="area" value=user.area)
+      div.form-group
+        label(for="contraseña") Contraseña
+        input.form-control(type="password" id="contraseña" name="contraseña" value=user.contraseña)
+      button.btn.btn-primary(type="submit") Guardar cambios
+    
+    .d-flex.justify-content-center.mb-3
+      a.btn.btn-secondary.btn-lg(href='/users') Volver

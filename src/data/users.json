@@ -1,76 +1,62 @@
 [
-    {
-      "id": 1,
-      "nombre": "Juan Pérez",
-      "area": "Compras",
-      "contraseña": "11"
-    },
-    {
-      "id": 2,
-      "nombre": "Laura Martínez",
-      "area": "Compras",
-      "contraseña": "22"
-    },
-    {
-        "id": 3,
-        "nombre": "Pedro Fernandez",
-        "area": "Compras",
-        "contraseña": "33"
-      },
-    
-    {
-      "id": 4,
-      "nombre": "Ana Gómez",
-      "area": "Ventas",
-      "contraseña": "44"
-    },
-    {
-      "id": 5,
-      "nombre": "Luis Ramírez",
-      "area": "Ventas",
-      "contraseña": "55"
-    },
-    {
-        "id": 6,
-        "nombre": "Carla Torres",
-        "area": "Ventas",
-        "contraseña": "66"
-      },
-    {
-      "id": 7,
-      "nombre": "Carlos López",
-      "area": "Producción",
-      "contraseña": "77"
-    },
-    {
-        "id": 8,
-        "nombre": "Elena Rodriguez",
-        "area": "Producción",
-        "contraseña": "88"
-      },
-      {
-        "id": 9,
-        "nombre": "Roberto Silva",
-        "area": "Producción",
-        "contraseña": "99"
-      },
-    {
-      "id": 10,
-      "nombre": "Marta Sánchez",
-      "area": "Inventario",
-      "contraseña": "1010"
-    },
-    {
-        "id": 11,
-        "nombre": "Javier Castillo",
-        "area": "Inventario",
-        "contraseña": "1111"
-      },
-      {
-        "id": 12,
-        "nombre": "Sofia Lopez",
-        "area": "Inventario",
-        "contraseña": "1212"
-      }
-  ]
-  
+  {
+    "id": 3,
+    "nombre": "Pedro Fernandez",
+    "area": "Compras",
+    "contraseña": "33"
+  },
+  {
+    "id": 4,
+    "nombre": "Ana Gómez",
+    "area": "Ventas",
+    "contraseña": "44"
+  },
+  {
+    "id": 5,
+    "nombre": "Luis Ramírez",
+    "area": "Ventas",
+    "contraseña": "55"
+  },
+  {
+    "id": 6,
+    "nombre": "Carla Torres",
+    "area": "Ventas",
+    "contraseña": "66"
+  },
+  {
+    "id": 7,
+    "nombre": "Carlos López",
+    "area": "Producción",
+    "contraseña": "77"
+  },
+  {
+    "id": 8,
+    "nombre": "Elena Rodriguez",
+    "area": "Producción",
+    "contraseña": "88"
+  },
+  {
+    "id": 9,
+    "nombre": "Roberto Silva",
+    "area": "Producción",
+    "contraseña": "99"
+  },
+  {
+    "id": 10,
+    "nombre": "Marta Sánchez",
+    "area": "Inventario",
+    "contraseña": "1010"
+  },
+  {
+    "id": 11,
+    "nombre": "Javier Castillo",
+    "area": "Inventario",
+    "contraseña": "1111"
+  },
+  {
+    "id": 12,
+    "nombre": "Sofia Lopez",
+    "area": "Inventario",
+    "contraseña": "1212"
+  }
+]
