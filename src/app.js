@@ -14,14 +14,13 @@ app.set('view engine', 'pug');
 
 // Middleware para parsear JSON
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 //para usar formulario
 app.use(express.urlencoded({ extended: true })); 
 
-// Importa rutas
+// para Importar rutas
 const taskRoutes = require('./routes/tasks');
 const userRoutes = require('./routes/users');
 const loginRoutes = require('./routes/login');
