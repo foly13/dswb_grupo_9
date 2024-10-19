@@ -7,6 +7,23 @@ html
   body
     h1.text-center Lista de Tareas
 
+    form(method="GET" action="/tasks" class="text-center mb-4")
+          div.form-group
+            label(for="estado") Filtrar por Estado:
+            select#estado.form-control(name="estado")
+              option(value="") -- Seleccionar Estado --
+              option(value="1") Pendiente
+              option(value="2") En Progreso
+              option(value="3") Completado
+          div.form-group
+            label(for="prioridad") Filtrar por Prioridad:
+            select#prioridad.form-control(name="prioridad")
+              option(value="") -- Seleccionar Prioridad --
+              option(value="1") Baja
+              option(value="2") Media
+              option(value="3") Alta
+          button.btn.btn-primary(type="submit") Filtrar
+          a.btn.btn-secondary(href="/tasks") Limpiar Filtros
     if message
       .alert.alert-success.text-center(role='alert')= message
       script.

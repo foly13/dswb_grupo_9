@@ -1,9 +1,20 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const app = express();
 const PORT = 3000;
 const methodOverride = require('method-override');
+
+// Configuración de express-session
+app.use(
+	session({
+		secret: 'tu_secreto_seguro',
+		resave: false,
+		saveUninitialized: true,
+		cookie: { secure: false },
+	})
+);
 
 //para usar el method
 app.use(methodOverride('_method'));
@@ -16,26 +27,25 @@ app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 //para usar formulario
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 
 // para Importar rutas
+const mainRoutes = require('./routes/main.js');
 const taskRoutes = require('./routes/tasks');
 const userRoutes = require('./routes/users');
-const loginRoutes = require('./routes/login');
 const adminRoutes = require('./routes/admin');
 
 // Usa las rutas
+app.use('/', mainRoutes);
 app.use('/tasks', taskRoutes);
 app.use('/users', userRoutes);
-app.use('/login', loginRoutes);  
 app.use('/admin', adminRoutes);
 
 // Página de inicio
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Gestión de Tareas' });
+	res.render('index', { title: 'Gestión de Tareas' });
 });
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+	console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

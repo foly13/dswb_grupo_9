@@ -1,3 +1,4 @@
+/*---- Estilos generales ----*/
 body {
 	background-color: whitesmoke;
 }
@@ -59,4 +60,11 @@ form {
   
   button:hover {
 	background-color: #333; 
-  }  
+  }
+
+  /*---- Estilos del Home y Admin----*/
+  /*---- Estilos del Listado de Tareas ----*/
+  /*---- Estilos de Crear Tarea/Crear Usuario ----*/
+  /*---- Estilos de Editar Tarea/Editar Usuario ----*/
+  /*---- Estilos de Detalle de Tarea ----*/
+  /*---- Estilos de Detalle de Usuario ----*/
