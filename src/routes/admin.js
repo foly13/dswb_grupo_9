@@ -20,11 +20,11 @@ router.post('/add-employee', async (req, res) => {
     try {
       data = await fs.readFile(usersFilePath, { encoding: 'utf8' });
     } catch (err) {
-      // Si no existe el archivo o está vacío, iniciamos una lista vacía
+      // Si no existe el archivo o está vacío, iniciar una lista vacía
       if (err.code === 'ENOENT') {
         data = '[]';
       } else {
-        throw err; // Si es otro tipo de error, lo lanzamos
+        throw err; 
       }
     }
 
