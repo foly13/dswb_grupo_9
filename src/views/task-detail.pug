@@ -7,32 +7,35 @@ html
   body
     h1.text-center Detalles de la Tarea
 
-    .container
-      p 
-        strong Tarea: 
-        | #{task.Tarea}
-      p
-        strong Responsable: 
-        | #{task.responsableNombre}
-      p
-        strong Area: 
-        | #{task.Area}
-      p
-        strong Estado: 
-        | #{task.Estado}
-      p
-        strong Prioridad: 
-        | #{task.prioridadNombre}
+    .container.d-flex.flex-column.align-items-center.justify-content-center.mt-5
+      .card.text-center.w-80
+        .card-body
+          p 
+            strong Tarea: 
+            | #{task.Tarea}
+          p
+            strong Responsable: 
+            | #{task.responsableNombre}
+          p
+            strong Area: 
+            | #{task.Area}
+          p
+            strong Estado: 
+            | #{task.Estado}
+          p
+            strong Prioridad: 
+            | #{task.prioridadNombre}
 
-      // Botón de editar
-      a.btn.btn-warning(href=`/tasks/${task.id}/edit`) Editar Tarea
+          // Botón de editar
+          a.btn.btn-warning.mt-3(href=`/tasks/${task.id}/edit`) Editar Tarea
 
-      // Formulario para eliminar la tarea
-      form(action=`/tasks/${task.id}?_method=DELETE`, method='POST', onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?');")
-        button.btn.btn-danger(type='submit') Eliminar Tarea
+          // Formulario para eliminar la tarea
+          .card-footer.bg-white
+            form(action=`/tasks/${task.id}?_method=DELETE`, method='POST', class='unstyled-form', onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?');")
+              button.btn.btn-danger(type='submit') Eliminar Tarea
 
-      // Botón para volver a la lista de tareas
-      a.btn.btn-primary(href="/tasks") Volver a la lista de tareas
+          // Botón para volver a la lista de tareas
+          a.btn.btn-primary.mt-2(href="/tasks") Volver a la lista de tareas
       // Script de confirmación
       script.
         function confirmDelete() {

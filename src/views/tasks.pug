@@ -23,18 +23,25 @@ html
               option(value="2") Media
               option(value="3") Alta
           button.btn.btn-primary(type="submit") Filtrar
-          a.btn.btn-secondary(href="/tasks") Limpiar Filtros
+          a.btn.btn-secondary.mt-2(href="/tasks") Limpiar Filtros
     if message
       .alert.alert-success.text-center(role='alert')= message
       script.
         setTimeout(function() {
           window.location.href = "/tasks";
         }, 3000); 
-    ul
-      each task in tasks
-        li.text-center #{task.Tarea} - Responsable: #{task.responsableNombre} - Estado: #{task.Estado} - Prioridad: #{task.prioridadNombre}
-        .d-flex.justify-content-center.mb-3
-          a.btn.btn-primary.btn-lg.m-2(href=`/tasks/${task.id}`) Ver tarea
+    .container
+      .row.justify-content-center
+        each task in tasks
+          .col-12.col-md-4.mb-4.d-flex
+            .card.text-center.w-100.h-100
+              .card-body.d-flex.flex-column
+                h5.card-title #{task.Tarea}
+                p.card-text Responsable: #{task.responsableNombre}
+                p.card-text Estado: #{task.Estado}
+                p.card-text Prioridad: #{task.prioridadNombre}
+                .d-flex.justify-content-center
+                  a.btn.btn-primary.btn-lg.m-2.mt-auto(href=`/tasks/${task.id}`) Ver tarea
   
    
 
