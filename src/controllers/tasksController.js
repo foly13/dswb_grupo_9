@@ -73,8 +73,15 @@ const taskController = {
 				);
 			}
 
+			// Obtener el rol del usuario desde la sesión
+			const userRole = req.session.user ? req.session.user.rol : null;
+
+			// Definir la URL de retorno según el rol del usuario
+			const backUrl = userRole === 'admin' ? '/admin' : '/home';
+
 			const message = req.query.message;
-			res.render('tasks', { tasks: filteredTasks, message });
+			// Pasar la URL de retorno a la vista
+			res.render('tasks', { tasks: filteredTasks, message, backUrl });
 		} catch (error) {
 			res.status(500).send('Error al obtener las tareas');
 		}
