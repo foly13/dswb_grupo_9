@@ -6,15 +6,22 @@ html
     link(rel="stylesheet", href="/styles.css")
   body
     h1.text-center Lista de Usuarios
-    ul
-      each user in users
-        li.text-center #{user.nombre} - Área: #{user.area}
-        .d-flex.justify-content-center.mb-3
-          a.btn.btn-primary.btn-lg.m-2(href=`/users/${user.id}/edit`) Editar usuario
-          
-          //- Formulario para eliminar usuario
-          form(action=`/users/${user.id}?_method=DELETE` method="POST" onsubmit="return confirmDelete()")
-            button.btn.btn-danger.btn-lg.m-2(type="submit") Eliminar usuario
+
+    .container
+      .row.justify-content-center
+          each user in users
+            .col-12.col-md-4.mb-4.d-flex 
+              .card.mb-4.text-center.w-100.h-100
+                .card-body.d-flex.flex-column
+                  h5.card-title #{user.nombre}
+                  p.card-text Área: #{user.area}
+                  .d-flex.justify-content-center.mt-auto
+                    a.btn.btn-primary.btn-lg.m-2(href=`/users/${user.id}/edit`) Editar usuario
+                
+                //- Formulario para eliminar usuario
+                .d-flex.justify-content-center
+                  form(action=`/users/${user.id}?_method=DELETE` method="POST" class='unstyled-form' onsubmit="return confirmDelete()")
+                    button.btn.btn-danger.btn-lg.m-2(type="submit") Eliminar usuario
 
     //- Mensaje de éxito
     if successMessage

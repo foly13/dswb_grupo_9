@@ -27,6 +27,12 @@ app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware para manejar errores
+app.use((err, req, res, next) => {
+	console.error(err.stack); // Imprimir el error en la consola
+	res.status(err.status || 500).render('error', { error: err || {} }); // Asegúrate de que error no sea undefined
+});
+
 //para usar formulario
 app.use(express.urlencoded({ extended: true }));
 
