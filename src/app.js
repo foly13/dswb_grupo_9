@@ -23,10 +23,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Importa rutas
 const taskRoutes = require('./routes/tasks');
+//const newTaskRoute = require('./routes/new-task');
 const userRoutes = require('./routes/users');
 
 // Usa las rutas
 app.use('/tasks', taskRoutes);
+// app.use('/new-task', newTaskRoute);
 app.use('/users', userRoutes);
 
 // Página de inicio

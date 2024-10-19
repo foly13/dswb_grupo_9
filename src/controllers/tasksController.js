@@ -1,5 +1,7 @@
+const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
+const router = express.Router();
 
 // Rutas de los archivos JSON
 const tasksFilePath = path.join(__dirname, '../data/tasks.json');
@@ -86,15 +88,12 @@ exports.showTaskDetails = async (req, res) => {
             // Renderizar la vista con los detalles de la tarea
             res.render('task-detail', { task: taskWithDetails });
         } else {
-            res.status(404).send('Tarea no encontrada');
+            res.status(404).send('Tarea no encontrada ghnfghdfgh');
         }
     } catch (error) {
         res.status(500).send('Error al obtener la tarea para mostrar los detalles');
     }
 };
-
-
-
 
 // Mostrar formulario de edición
 exports.getEditTaskForm = async (req, res) => {
@@ -160,5 +159,47 @@ exports.deleteTask = async (req, res) => {
         }
     } catch (error) {
         res.status(500).send('Error al eliminar la tarea');
+    }
+};
+
+// Mostrar formulario para crear una nueva tarea
+exports.getNewTaskForm = async (req, res) => {
+    try {
+        const users = await getUsers();
+        const priorities = await getPriorities();
+        const statuses = await getStatuses();
+        
+        res.render('new-task', { users, priorities, statuses });
+        //res.render('new-task', { task: { id: newTaskId }, query: req.query } );
+    } catch (error) {
+        res.status(500).send('Error al cargar el formulario para crear una nueva tarea');
+    }
+};
+
+// Crear una nueva tarea
+exports.createTask = async (req, res) => {
+    try {
+        // Validación básica de los datos
+        if (!req.body.tarea || !req.body.idResponsable || !req.body.idPrioridad || !req.body.idEstado) {
+            return res.status(400).send('Faltan datos requeridos');
+        }
+        const tasks = await getTasks();
+        const users = await getUsers();
+        const usuario = users.find((user) => user.id === parseInt(req.body.idResponsable));
+        const newTask = {
+            id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
+            ...req.body,
+            idResponsable: parseInt(req.body.idResponsable, 10),
+            idPrioridad: parseInt(req.body.idPrioridad, 10),
+            idEstado: parseInt(req.body.idEstado, 10),
+            Tarea: req.body.tarea,
+            Area: usuario.Area
+        };
+        tasks.push(newTask);
+        await fs.writeFile(tasksFilePath, JSON.stringify(tasks, null, 2));
+
+        res.redirect('/tasks?message=Tarea creada con éxito');
+    } catch (error) {
+        res.status(500).send('Error al crear la tarea');
     }
 };
