@@ -195,6 +195,54 @@ const taskController = {
 			res.status(500).send('Error al eliminar la tarea');
 		}
 	},
+	getNewTaskForm: async (req, res) => {
+		try {
+			const users = await getUsers();
+			const priorities = await getPriorities();
+			const statuses = await getStatuses();
+
+			res.render('new-task', { users, priorities, statuses });
+		} catch (error) {
+			res.status(500).send(
+				'Error al cargar el formulario para crear una nueva tarea'
+			);
+		}
+	},
+
+	// Crear una nueva tarea
+	createTask: async (req, res) => {
+		try {
+			// Validación básica de los datos
+			if (
+				!req.body.tarea ||
+				!req.body.idResponsable ||
+				!req.body.idPrioridad ||
+				!req.body.idEstado
+			) {
+				return res.status(400).send('Faltan datos requeridos');
+			}
+			const tasks = await getTasks();
+			const users = await getUsers();
+			const usuario = users.find(
+				(user) => user.id === parseInt(req.body.idResponsable)
+			);
+			const newTask = {
+				id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
+				...req.body,
+				idResponsable: parseInt(req.body.idResponsable, 10),
+				idPrioridad: parseInt(req.body.idPrioridad, 10),
+				idEstado: parseInt(req.body.idEstado, 10),
+				Tarea: req.body.tarea,
+				Area: usuario.Area,
+			};
+			tasks.push(newTask);
+			await fs.writeFile(tasksFilePath, JSON.stringify(tasks, null, 2));
+
+			res.redirect('/tasks?message=Tarea creada con éxito');
+		} catch (error) {
+			res.status(500).send('Error al crear la tarea');
+		}
+	},
 };
 
 // Exportar el controlador

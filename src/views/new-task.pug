@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title Nueva Tarea
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+    link(rel="stylesheet", href="/styles.css")
+  body
+    h1.text-center Crear Nueva Tarea
+
+    form(action="/tasks" method="POST")
+      .form-group
+        label(for='Tarea') Tarea
+        input#Tarea.form-control(type='text', name='tarea', required)
+      .form-group
+        label(for="idResponsable") Responsable:&nbsp;&nbsp;
+            select(name="idResponsable" required)
+              each user in users
+                option(value=user.id)= user.nombre
+      .form-group
+        label(for="Estado") Estado:&nbsp;&nbsp;
+            select(name="idEstado" required)
+              each status in statuses
+                option(value=status.id)= status.nombre
+      .form-group
+        label(for="Prioridad") Prioridad:&nbsp;&nbsp;
+            select(name="idPrioridad" required)
+              each priority in priorities
+                option(value=priority.id)= priority.nombre
+      button.btn.btn-primary(type='submit') Guardar Cambios
