@@ -1,5 +1,5 @@
 const adminMiddleware = (req, res, next) => {
-	if (req.session && req.session.user && req.session.user.rol === 'admin') {
+	if (req.session) {
 		return next();
 	}
 	return res.status(403).render('error', {

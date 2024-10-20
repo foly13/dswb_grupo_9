@@ -20,15 +20,12 @@ const mainController = {
 			);
 
 			if (user) {
-				// Almacena la información del usuario en la sesión
-				req.session.user = {
-					id: user.id,
-					nombre: user.nombre,
-					rol: user.rol,
-				};
-
-				// Redirige según el rol del usuario
 				if (user.rol === 'admin') {
+					req.session.user = {
+						id: user.id,
+						nombre: user.nombre,
+						rol: user.rol,
+					};
 					res.redirect('/admin');
 				} else {
 					res.redirect('/home');

@@ -1,22 +1,23 @@
 const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const session = require('express-session');
 const app = express();
+const path = require('path');
+const session = require('express-session');
 const PORT = 3000;
 const methodOverride = require('method-override');
 
 // Configuración de express-session
 app.use(
 	session({
-		secret: 'tu_secreto_seguro',
+		secret: 'tu_secreto',
 		resave: false,
 		saveUninitialized: true,
-		cookie: { secure: false },
+		cookie: {
+			secure: false,
+		},
 	})
 );
 
-//para usar el method
+//para usar el method PUT y DELETE
 app.use(methodOverride('_method'));
 
 // Configuración de Pug como motor de vistas
@@ -30,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Middleware para manejar errores
 app.use((err, req, res, next) => {
 	console.error(err.stack); // Imprimir el error en la consola
-	res.status(err.status || 500).render('error', { error: err || {} }); // Asegúrate de que error no sea undefined
+	res.status(err.status || 500).render('error', { error: err || {} });
 });
 
 //para usar formulario
