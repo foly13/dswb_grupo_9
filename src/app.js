@@ -4,6 +4,7 @@ const path = require('path');
 const session = require('express-session');
 const PORT = 3000;
 const methodOverride = require('method-override');
+const db = require('./db');
 
 // Configuración de express-session
 app.use(
