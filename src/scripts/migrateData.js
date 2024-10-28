@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
-const db = require('./db'); // Importar la conexión a la base de datos
+const db = require('../db'); // Importar la conexión a la base de datos
 
 // Modelos
 const Priority = require('../models/priorities');
