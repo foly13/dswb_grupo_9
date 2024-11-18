@@ -1,7 +1,11 @@
 const fs = require('fs').promises;
 const path = require('path');
+const Task = require('../models/tasks'); 
+const User = require('../models/users'); 
+const Priority = require('../models/priorities'); 
+const Status = require('../models/statuses');
 
-// Rutas de los archivos JSON
+/*// Rutas de los archivos JSON
 const tasksFilePath = path.join(__dirname, '../data/tasks.json');
 const usersFilePath = path.join(__dirname, '../data/users.json');
 const prioritiesFilePath = path.join(__dirname, '../data/priorities.json');
@@ -27,7 +31,7 @@ const getStatuses = async () => {
 	const data = await fs.readFile(statusesFilePath, 'utf-8');
 	return JSON.parse(data);
 };
-
+*/
 // Controladores para cada operación
 
 // Mostrar todas las tareas
@@ -35,14 +39,26 @@ const taskController = {
 	// Mostrar todas las tareas con filtrado
 	getAllTasks: async (req, res) => {
 		try {
+			/*
 			const tasks = await getTasks();
 			const users = await getUsers();
 			const priorities = await getPriorities();
-			const statuses = await getStatuses();
-
+			const statuses = await getStatuses();*/
+			const tasks = await Task.find().populate('idResponsable idPrioridad idEstado');
 			const { estado, prioridad } = req.query;
 
 			// Filtrado de tareas
+			let filteredTasks = tasks;
+
+			if (estado) {
+				filteredTasks = filteredTasks.filter(task => task.idEstado.toString() === estado);
+			}
+
+			if (prioridad) {
+				filteredTasks = filteredTasks.filter(task => task.idPrioridad.toString() === prioridad);
+			}
+
+			/*
 			let filteredTasks = tasks.map((task) => {
 				const user = users.find((user) => user.id === task.idResponsable);
 				const priority = priorities.find(
@@ -72,10 +88,9 @@ const taskController = {
 					(task) => task.idPrioridad === parseInt(prioridad)
 				);
 			}
-
+*/
 			// Obtener el rol del usuario desde la sesión
 			const userRole = req.session.user ? req.session.user.rol : null;
-
 			// Definir la URL de retorno según el rol del usuario
 			const backUrl = userRole === 'admin' ? '/admin' : '/home';
 
@@ -90,12 +105,14 @@ const taskController = {
 	// Mostrar detalles de una tarea
 	showTaskDetails: async (req, res) => {
 		try {
+			/*
 			const tasks = await getTasks();
 			const users = await getUsers();
 			const priorities = await getPriorities();
 			const statuses = await getStatuses();
-			const task = tasks.find((task) => task.id === parseInt(req.params.id));
-
+			const task = tasks.find((task) => task.id === parseInt(req.params.id));*/
+			const task = await Task.findById(req.params.id).populate('idResponsable idPrioridad idEstado');
+			/*
 			if (task) {
 				const responsable = users.find(
 					(user) => user.id === task.idResponsable
@@ -119,6 +136,11 @@ const taskController = {
 				res.render('task-detail', { task: taskWithDetails });
 			} else {
 				res.status(404).send('Tarea no encontrada');
+			}*/
+			if (task) {
+				res.render('task-detail', { task });
+			} else {
+				res.status(404).send('Tarea no encontrada');
 			}
 		} catch (error) {
 			res.status(500).send(
@@ -130,20 +152,19 @@ const taskController = {
 	// Mostrar formulario de edición
 	getEditTaskForm: async (req, res) => {
 		try {
+			/*
 			const tasks = await getTasks();
 			const users = await getUsers();
 			const priorities = await getPriorities();
 			const statuses = await getStatuses();
-			const task = tasks.find((task) => task.id === parseInt(req.params.id));
-
+			const task = tasks.find((task) => task.id === parseInt(req.params.id));*/
+			const task = await Task.findById(req.params.id).populate('idResponsable');
 			if (task) {
-				const areaUsers = users.filter((user) => user.area === task.Area);
-				res.render('edit-task', {
-					task,
-					users: areaUsers,
-					priorities,
-					statuses,
-				});
+				const areaUsers = await User.find({ area: task.Area });
+				const priorities = await Priority.find();
+				const statuses = await Status.find();
+
+				res.render('edit-task', { task, users: areaUsers, priorities, statuses });
 			} else {
 				res.status(404).send('Tarea no encontrada');
 			}
@@ -155,6 +176,7 @@ const taskController = {
 	// Actualizar tarea
 	updateTask: async (req, res) => {
 		try {
+			/*
 			const tasks = await getTasks();
 			const taskIndex = tasks.findIndex(
 				(task) => task.id === parseInt(req.params.id)
@@ -175,6 +197,13 @@ const taskController = {
 				res.redirect('/tasks?message=Tarea actualizada con éxito');
 			} else {
 				res.status(404).send('Tarea no encontrada');
+			}*/
+			const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+			if (updatedTask) {
+				res.redirect('/tasks?message=Tarea actualizada con éxito');
+			} else {
+				res.status(404).send('Tarea no encontrada');
 			}
 		} catch (error) {
 			res.status(500).send('Error al actualizar la tarea');
@@ -184,6 +213,7 @@ const taskController = {
 	// Eliminar tarea
 	deleteTask: async (req, res) => {
 		try {
+			/*
 			const tasks = await getTasks();
 			const newTasks = tasks.filter(
 				(task) => task.id !== parseInt(req.params.id)
@@ -197,16 +227,30 @@ const taskController = {
 				res.redirect('/tasks?message=Tarea eliminada');
 			} else {
 				res.status(404).send('Tarea no encontrada');
+			}*/
+			const result = await Task.findByIdAndDelete(req.params.id);
+
+			if (result) {
+				res.redirect('/tasks?message=Tarea eliminada');
+			} else {
+				res.status(404).send('Tarea no encontrada');
 			}
 		} catch (error) {
 			res.status(500).send('Error al eliminar la tarea');
 		}
 	},
+
 	getNewTaskForm: async (req, res) => {
 		try {
+			/*
 			const users = await getUsers();
 			const priorities = await getPriorities();
 			const statuses = await getStatuses();
+
+			res.render('new-task', { users, priorities, statuses });*/
+			const users = await User.find();
+			const priorities = await Priority.find();
+			const statuses = await Status.find();
 
 			res.render('new-task', { users, priorities, statuses });
 		} catch (error) {
@@ -220,6 +264,7 @@ const taskController = {
 	createTask: async (req, res) => {
 		try {
 			// Validación básica de los datos
+			/*
 			if (
 				!req.body.tarea ||
 				!req.body.idResponsable ||
@@ -245,6 +290,19 @@ const taskController = {
 			tasks.push(newTask);
 			await fs.writeFile(tasksFilePath, JSON.stringify(tasks, null, 2));
 
+			res.redirect('/tasks?message=Tarea creada con éxito');*/
+			if (!req.body.tarea || !req.body.idResponsable || !req.body.idPrioridad || !req.body.idEstado) {
+				return res.status(400).send('Faltan datos requeridos');
+			}
+
+			const newTask = new Task({
+				...req.body,
+				idResponsable: req.body.idResponsable,
+				idPrioridad: req.body.idPrioridad,
+				idEstado: req.body.idEstado,
+			});
+
+			await newTask.save();
 			res.redirect('/tasks?message=Tarea creada con éxito');
 		} catch (error) {
 			res.status(500).send('Error al crear la tarea');

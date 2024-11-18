@@ -57,3 +57,7 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
 	console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+//Conectar base de datos
+const connectDB = require('./src/db/mongo');
+connectDB();

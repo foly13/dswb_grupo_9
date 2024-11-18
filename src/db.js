@@ -1,16 +1,19 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
 
-mongoose.connect('mongodb://localhost/Task_Management_DB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
-const db = mongoose.connection;
-
-// Manejo de errores de conexión
-db.on('error', console.error.bind(console, 'Error de conexión a MongoDB:'));
-db.once('open', () => {
-    console.log('Conexión a MongoDB establecida exitosamente');
-});
-
-module.exports = db; // Exportar la conexión para usarla en otros archivos
+async function run() {
+  try {
+    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
+    await mongoose.connect("MONGODB_URI", clientOptions);
+    await mongoose.connection.db.admin().command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await mongoose.disconnect();
+  }
+}
+run().catch(console.dir);

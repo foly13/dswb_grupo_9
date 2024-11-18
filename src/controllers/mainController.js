@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
+const User = require('../models/users');
 
 const mainController = {
 	renderLoginPage: (req, res) => {
@@ -9,20 +10,13 @@ const mainController = {
 	processLogin: async (req, res) => {
 		const { username, password } = req.body;
 		try {
-			// Leer usuarios desde el archivo JSON
-			const usersFilePath = path.join(__dirname, '../data/users.json');
-			const data = await fs.readFile(usersFilePath, 'utf-8');
-			const users = JSON.parse(data);
-
-			// Buscar usuario con las credenciales ingresadas
-			const user = users.find(
-				(u) => u.nombre === username && u.contraseña === password
-			);
+			// Buscar usuario con las credenciales ingresadas en MongoDB
+			const user = await User.findOne({ nombre: username, contraseña: password });
 
 			if (user) {
 				if (user.rol === 'admin') {
 					req.session.user = {
-						id: user.id,
+						id: user._id,
 						nombre: user.nombre,
 						rol: user.rol,
 					};
@@ -38,7 +32,7 @@ const mainController = {
 				});
 			}
 		} catch (error) {
-			console.error('Error al leer el archivo de usuarios:', error);
+			console.error('Error al buscar el usuario en la base de datos:', error);
 			res.render('index', {
 				title: 'Inicio de Sesión',
 				error: 'Error en el sistema, intenta más tarde',
