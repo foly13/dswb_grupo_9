@@ -56,3 +56,13 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
 	console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+//Conexión a la base de datos
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://grupo9:BackEnd@gestortareasdb.ie1iz.mongodb.net/?retryWrites=true&w=majority&appName=GestorTareasDB', { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+})
+.then(() => console.log('Conectado a MongoDB Atlas'))
+.catch(err => console.error('Error de conexión:', err));

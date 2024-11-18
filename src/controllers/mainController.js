@@ -1,53 +1,61 @@
 const fs = require('fs').promises;
 const path = require('path');
+const User = require('../models/users');
+const bcrypt = require('bcryptjs');
 
 const mainController = {
 	renderLoginPage: (req, res) => {
-		res.render('index', { title: 'Inicio de Sesión' });
+	  res.render('index', { title: 'Inicio de Sesión' });
 	},
-
+  
 	processLogin: async (req, res) => {
-		const { username, password } = req.body;
-		try {
-			// Leer usuarios desde el archivo JSON
-			const usersFilePath = path.join(__dirname, '../data/users.json');
-			const data = await fs.readFile(usersFilePath, 'utf-8');
-			const users = JSON.parse(data);
-
-			// Buscar usuario con las credenciales ingresadas
-			const user = users.find(
-				(u) => u.nombre === username && u.contraseña === password
-			);
-
-			if (user) {
-				if (user.rol === 'admin') {
-					req.session.user = {
-						id: user.id,
-						nombre: user.nombre,
-						rol: user.rol,
-					};
-					res.redirect('/admin');
-				} else {
-					res.redirect('/home');
-				}
+	  const { username, password } = req.body;
+	  try {
+		// Buscar el usuario por nombre
+		const user = await User.findOne({ nombre: username });
+  
+		if (user) {
+		  // Comparar la contraseña proporcionada con la contraseña encriptada en la base de datos
+		  const isMatch = await bcrypt.compare(password, user.contraseña);
+  
+		  if (isMatch) {
+			// Si las contraseñas coinciden, guardar la sesión dependiendo del rol
+			req.session.user = {
+			  id: user.id,
+			  nombre: user.nombre,
+			  rol: user.rol,
+			};
+			if (user.rol === 'admin') {
+			  res.redirect('/admin');
 			} else {
-				// Credenciales incorrectas
-				res.render('index', {
-					title: 'Inicio de Sesión',
-					error: 'Credenciales incorrectas',
-				});
+			  res.redirect('/home');
 			}
-		} catch (error) {
-			console.error('Error al leer el archivo de usuarios:', error);
+		  } else {
+			// Si las contraseñas no coinciden
 			res.render('index', {
-				title: 'Inicio de Sesión',
-				error: 'Error en el sistema, intenta más tarde',
+			  title: 'Inicio de Sesión',
+			  error: 'Credenciales incorrectas',
 			});
+		  }
+		} else {
+		  // Si no se encuentra el usuario
+		  res.render('index', {
+			title: 'Inicio de Sesión',
+			error: 'Credenciales incorrectas',
+		  });
 		}
+	  } catch (error) {
+		console.error('Error al buscar el usuario en la base de datos:', error);
+		res.render('index', {
+		  title: 'Inicio de Sesión',
+		  error: 'Error en el sistema, intenta más tarde',
+		});
+	  }
 	},
+  
 	renderHomePage: (req, res) => {
-		res.render('home', { title: 'Gestión de tareas' });
+	  res.render('home', { title: 'Gestión de tareas' });
 	},
-};
-
-module.exports = mainController;
+  };
+  
+  module.exports = mainController;
