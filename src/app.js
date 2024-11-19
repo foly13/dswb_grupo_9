@@ -52,6 +52,4 @@ app.use('/admin', adminRoutes);
 app.get('/', (req, res) => {
 	res.render('index', { title: 'Gestión de Tareas' });
 });
-app.listen(PORT, () => {
-	console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+module.exports = app; 
