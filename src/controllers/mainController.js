@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const User = require('../models/users');
 const bcrypt = require('bcryptjs');
+const session = require('express-session');
 
 const mainController = {
 	renderLoginPage: (req, res) => {
@@ -9,19 +10,19 @@ const mainController = {
 	},
   
 	processLogin: async (req, res) => {
-	  const { username, password } = req.body;
+	  const { nombre, contraseña } = req.body;
 	  try {
 		// Buscar el usuario por nombre
-		const user = await User.findOne({ nombre: username });
+		const user = await User.findOne({ nombre: nombre });
   
 		if (user) {
 		  // Comparar la contraseña proporcionada con la contraseña encriptada en la base de datos
-		  const isMatch = await bcrypt.compare(password, user.contraseña);
+		  const isMatch = await bcrypt.compare(contraseña, user.contraseña);
   
 		  if (isMatch) {
 			// Si las contraseñas coinciden, guardar la sesión dependiendo del rol
 			req.session.user = {
-			  id: user.id,
+			  id: user._id,
 			  nombre: user.nombre,
 			  rol: user.rol,
 			};

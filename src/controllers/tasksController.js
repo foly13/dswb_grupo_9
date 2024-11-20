@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const mongoose = require('mongoose');
 
-const Task = require('../models/task');
+const Task = require('../models/tasks');
 const User = require('../models/users');
 const Priority = require('../models/priorities');
 const Status = require('../models/statuses');

@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
-
-const User = mongoose.model('User', userSchema);
+const bcrypt = require('bcryptjs');
+const User = require('../models/users');
 
 /* Función para leer usuarios desde el archivo JSON
 const getUsers = async () => {
@@ -40,26 +40,36 @@ const getUsers = async () => {
 	},
   
 	addNewUser: async (req, res) => {
-	  try {
-		const { nombre, area, contraseña } = req.body;
-  
-		// Validación
-		if (!nombre || !area || !contraseña) {
-		  return res.redirect('/users/new?error=true');
+		try {
+		  const { nombre, area, contraseña, rol } = req.body;
+	
+		  // Validación
+		  if (!nombre || !area || !contraseña || !rol) {
+			return res.redirect('/users/new?error=true');
+		  }
+	
+		  // Encriptar la contraseña
+		  const salt = await bcrypt.genSalt(10);
+		  const contraseñaEncriptada = await bcrypt.hash(contraseña, salt);
+	
+		  // Crear el nuevo usuario con la contraseña encriptada
+		  const newUser = new User({
+			nombre,
+			area,
+			contraseña: contraseñaEncriptada,  
+			rol,
+		  });
+	
+		  // Guardar el nuevo usuario en la base de datos
+		  await newUser.save();
+	
+		  // Redirigir al formulario de creación de usuario con un mensaje de éxito
+		  res.redirect('/users/new?success=true');
+		} catch (error) {
+		  console.error('Error al agregar usuario:', error);
+		  res.status(500).send('Error al agregar el usuario');
 		}
-  
-		const newUser = new User({ nombre, area, contraseña });
-  
-		// Guardar el nuevo usuario en la base de datos
-		await newUser.save();
-  
-		// Redirigir
-		res.redirect('/users/new?success=true');
-	  } catch (error) {
-		console.error('Error al agregar usuario:', error);
-		res.status(500).send('Error al agregar el usuario');
-	  }
-	},
+	  },
   
 	renderEditUserForm: async (req, res) => {
 	  try {

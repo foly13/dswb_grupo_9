@@ -7,10 +7,7 @@ const uri = process.env.MONGODB_URI;
 // Función para conectar a la base de datos
 async function connectDB() {
   try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(uri);
     console.log('Conexión exitosa a MongoDB Atlas');
   } catch (error) {
     console.error('Error al conectar a MongoDB Atlas:', error);
@@ -21,5 +18,5 @@ async function connectDB() {
 // Llamar a la función de conexión
 connectDB();
 
-module.exports = mongoose; // Exporta la conexión si necesitas usarla en otro archivo
+module.exports = mongoose; 
 module.exports = connectDB;
