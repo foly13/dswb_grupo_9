@@ -8,10 +8,6 @@ html
 
     form(action="/users" method="POST")
       div.form-group
-        label(for="id") ID
-        input.form-control(type="text" id="id" name="id" value=user.id readonly)
-
-      div.form-group
         label(for="nombre") Nombre
         input.form-control(type="text" id="nombre" name="nombre" required)
 
@@ -22,6 +18,11 @@ html
       div.form-group
         label(for="contraseña") Contraseña
         input.form-control(type="password" id="contraseña" name="contraseña" required)
+
+        div.form-group
+        label(for="rol") Rol
+        input.form-control(type="text" id="rol" name="rol" required)
+
       button.btn.btn-primary(type="submit") Guardar Nuevo Usuario
 
     if query.error
