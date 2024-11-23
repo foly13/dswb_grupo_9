@@ -1,20 +1,19 @@
-const fs = require('fs').promises;
-const path = require('path');
+const User = require('../models/users');
 
-const usersFilePath = path.join(__dirname, '../data/users.json');
-
-// Función para leer usuarios desde el archivo JSON
 const getUsers = async () => {
-	const data = await fs.readFile(usersFilePath, 'utf-8');
-	return JSON.parse(data);
+	try {
+		return await User.find(); // Obtiene todos los usuarios de la base de datos
+	} catch (error) {
+		throw new Error('Error al obtener los usuarios de la base de datos');
+	}
 };
 
 const userController = {
 	getAllUsers: async (req, res) => {
 		try {
 			const users = await getUsers();
-			const successMessage = req.query.successMessage; // Obtener el mensaje de la query
-			res.render('users', { users, successMessage }); // Pasar el mensaje a la vista
+			const successMessage = req.query.successMessage;
+			res.render('users', { users, successMessage });
 		} catch (error) {
 			res.status(500).send('Error al obtener los usuarios');
 		}
@@ -24,7 +23,7 @@ const userController = {
 		try {
 			const users = await getUsers();
 			const newUserId =
-				users.length > 0 ? users[users.length - 1].id + 1 : 1; // Generar un nuevo ID basado en el último usuario
+				users.length > 0 ? users[users.length - 1].id + 1 : 1;
 			res.render('new-user', { user: { id: newUserId }, query: req.query });
 		} catch (error) {
 			res.status(500).send(
@@ -32,36 +31,32 @@ const userController = {
 			);
 		}
 	},
-
 	addNewUser: async (req, res) => {
 		try {
-			const users = await getUsers();
-			const newUser = req.body;
+			const { nombre, area, contraseña, rol } = req.body;
 
-			// Validación
-			if (!newUser.nombre || !newUser.area || !newUser.contraseña) {
-				return res.redirect('/users/new?error=true');
+			if (!nombre || !area || !contraseña) {
+				return res.status(400).send('Faltan datos requeridos.');
 			}
 
-			// Asignar el ID automáticamente
-			newUser.id = users.length > 0 ? users[users.length - 1].id + 1 : 1;
-			users.push(newUser);
+			const newUser = new User({
+				nombre,
+				area,
+				contraseña,
+				rol,
+			});
 
-			// Guardar nuevo usuario
-			await fs.writeFile(usersFilePath, JSON.stringify(users, null, 2));
+			await newUser.save();
 
-			// Redirigir
 			res.redirect('/users/new?success=true');
 		} catch (error) {
 			console.error('Error al agregar usuario:', error);
 			res.status(500).send('Error al agregar el usuario');
 		}
 	},
-
 	renderEditUserForm: async (req, res) => {
 		try {
-			const users = await getUsers();
-			const user = users.find((user) => user.id === parseInt(req.params.id));
+			const user = await User.findById(req.params.id);
 
 			if (!user) {
 				return res.status(404).send('Usuario no encontrado');
@@ -75,21 +70,18 @@ const userController = {
 
 	updateUser: async (req, res) => {
 		try {
-			const users = await getUsers();
-			const userIndex = users.findIndex(
-				(user) => user.id === parseInt(req.params.id)
-			);
-			if (userIndex === -1) {
+			const user = await User.findById(req.params.id);
+
+			if (!user) {
 				return res.status(404).send('Usuario no encontrado');
 			}
 
-			// Actualizar los campos del usuario
-			users[userIndex] = { ...users[userIndex], ...req.body };
+			user.nombre = req.body.nombre || user.nombre;
+			user.area = req.body.area || user.area;
+			user.contraseña = req.body.contraseña || user.contraseña;
 
-			// Guardar cambios
-			await fs.writeFile(usersFilePath, JSON.stringify(users, null, 2));
+			await user.save();
 
-			// Redirigir a la vista de edición con un mensaje de éxito
 			res.redirect(`/users/${req.params.id}/edit?success=true`);
 		} catch (error) {
 			console.error('Error al actualizar usuario:', error);
@@ -99,17 +91,12 @@ const userController = {
 
 	deleteUser: async (req, res) => {
 		try {
-			const users = await getUsers();
-			const newUsers = users.filter(
-				(user) => user.id !== parseInt(req.params.id)
-			);
+			const user = await User.findByIdAndDelete(req.params.id);
 
-			if (newUsers.length === users.length) {
+			if (!user) {
 				return res.status(404).send('Usuario no encontrado');
 			}
 
-			// Guardar el nuevo array de usuarios
-			await fs.writeFile(usersFilePath, JSON.stringify(newUsers, null, 2));
 			res.redirect('/users?successMessage=Usuario eliminado exitosamente');
 		} catch (error) {
 			console.error('Error al eliminar usuario:', error);

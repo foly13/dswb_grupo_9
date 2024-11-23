@@ -11,20 +11,13 @@ html
         label(for='Tarea') Tarea
         input#Tarea.form-control(type='text', name='Tarea', value=task.Tarea, required)
       .form-group
-        label(for='idResponsable') Responsable
+        label(for='idResponsable') Cambiar Responsable
         select#idResponsable.form-control(name='idResponsable', required)
           each user in users
-            option(value=user.id, selected=task.idResponsable === user.id) 
-              | #{user.nombre} (ID: #{user.id})
-      .form-group
-        label(for='Estado') Estado
-        select#Estado.form-control(name='idEstado')
-          each status in statuses
-            option(value=status.id, selected=task.idEstado === status.id) #{status.nombre}
-      .form-group
-        label(for='Prioridad') Prioridad
-        select#Prioridad.form-control(name='idPrioridad')
-          each priority in priorities
-            option(value=priority.id, selected=task.idPrioridad === priority.id) #{priority.nombre}
+            option(
+              value=user._id,
+              selected=task.idResponsable.toString() === user._id.toString()
+            )
+              | #{user.nombre} 
       button.btn.btn-primary(type='submit') Guardar Cambios
 

@@ -10,12 +10,15 @@ html
     form(action="/tasks" method="POST")
       .form-group
         label(for='Tarea') Tarea
-        input#Tarea.form-control(type='text', name='tarea', required)
+        input#Tarea.form-control(type='text', name='Tarea', required)
+      .form-group
+        label(for='Area') Area
+        input#Tarea.form-control(type='text', name='Area', required)
       .form-group
         label(for="idResponsable") Responsable:&nbsp;&nbsp;
             select(name="idResponsable" required)
               each user in users
-                option(value=user.id)= user.nombre
+                option(value=user._id)= user.nombre
       .form-group
         label(for="Estado") Estado:&nbsp;&nbsp;
             select(name="idEstado" required)

@@ -1,47 +1,81 @@
-const fs = require('fs').promises;
-const path = require('path');
+const jwt = require('jsonwebtoken');
+const User = require('../models/users');
+const bcrypt = require('bcryptjs');
 
 const mainController = {
 	renderLoginPage: (req, res) => {
 		res.render('index', { title: 'Inicio de Sesión' });
 	},
-
 	processLogin: async (req, res) => {
-		const { username, password } = req.body;
-		try {
-			// Leer usuarios desde el archivo JSON
-			const usersFilePath = path.join(__dirname, '../data/users.json');
-			const data = await fs.readFile(usersFilePath, 'utf-8');
-			const users = JSON.parse(data);
+		const { nombre, contraseña } = req.body;
 
-			// Buscar usuario con las credenciales ingresadas
-			const user = users.find(
-				(u) => u.nombre === username && u.contraseña === password
-			);
+		try {
+			const user = await User.findOne({ nombre });
 
 			if (user) {
-				if (user.rol === 'admin') {
-					req.session.user = {
-						id: user.id,
-						nombre: user.nombre,
-						rol: user.rol,
-					};
-					res.redirect('/admin');
+				const isMatch = await bcrypt.compare(contraseña, user.contraseña);
+
+				if (isMatch) {
+					// Verificar si el rol del usuario es 'admin'
+					if (user.rol === 'admin') {
+						// Si el rol es 'admin', generar el token y guardarlo en la cookie
+						const token = jwt.sign(
+							{
+								id: user._id,
+								nombre: user.nombre,
+								rol: user.rol,
+							},
+							process.env.JWT_SECRET,
+							{ expiresIn: '1h' }
+						);
+
+						res.cookie('token', token, {
+							httpOnly: true, // Protege contra XSS
+							secure: process.env.NODE_ENV === 'production',
+							maxAge: 3600000,
+						});
+
+						return res.status(200).json({
+							success: true,
+							message: 'Inicio de sesión exitoso',
+							user: {
+								id: user._id,
+								nombre: user.nombre,
+								rol: user.rol,
+							},
+						});
+					} else {
+						// Si el usuario no es admin, redirigir a la página /home
+						return res.status(200).json({
+							success: true,
+							message: 'Inicio de sesión exitoso, redirigiendo a /home',
+							user: {
+								id: user._id,
+								nombre: user.nombre,
+								rol: user.rol,
+							},
+						});
+					}
 				} else {
-					res.redirect('/home');
+					return res.status(401).json({
+						success: false,
+						message: 'Credenciales incorrectas',
+					});
 				}
 			} else {
-				// Credenciales incorrectas
-				res.render('index', {
-					title: 'Inicio de Sesión',
-					error: 'Credenciales incorrectas',
+				return res.status(404).json({
+					success: false,
+					message: 'Usuario no encontrado',
 				});
 			}
 		} catch (error) {
-			console.error('Error al leer el archivo de usuarios:', error);
-			res.render('index', {
-				title: 'Inicio de Sesión',
-				error: 'Error en el sistema, intenta más tarde',
+			console.error(
+				'Error al buscar el usuario en la base de datos:',
+				error
+			);
+			return res.status(500).json({
+				success: false,
+				message: 'Error en el sistema, intenta más tarde',
 			});
 		}
 	},

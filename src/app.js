@@ -4,6 +4,8 @@ const path = require('path');
 const session = require('express-session');
 const PORT = 3000;
 const methodOverride = require('method-override');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 // Configuración de express-session
 app.use(
@@ -16,6 +18,10 @@ app.use(
 		},
 	})
 );
+app.use(cookieParser());
+
+//para usar los recursos estáticos
+app.use(express.static('public'));
 
 //para usar el method PUT y DELETE
 app.use(methodOverride('_method'));
@@ -56,3 +62,17 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
 	console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+//Conexión a la base de datos
+const mongoose = require('mongoose');
+
+mongoose
+	.connect(
+		'mongodb+srv://grupo9:BackEnd@gestortareasdb.ie1iz.mongodb.net/?retryWrites=true&w=majority&appName=GestorTareasDB',
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}
+	)
+	.then(() => console.log('Conectado a MongoDB Atlas'))
+	.catch((err) => console.error('Error de conexión:', err));

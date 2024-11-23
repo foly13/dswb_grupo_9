@@ -27,11 +27,11 @@ html
             | #{task.prioridadNombre}
 
           // Botón de editar
-          a.btn.btn-warning.mt-3(href=`/tasks/${task.id}/edit`) Editar Tarea
+          a.btn.btn-warning.mt-3(href=`/tasks/${task._id}/edit`) Editar Tarea
 
           // Formulario para eliminar la tarea
           .card-footer.bg-white
-            form(action=`/tasks/${task.id}?_method=DELETE`, method='POST', class='unstyled-form', onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?');")
+            form(action=`/tasks/${task._id}?_method=DELETE`, method='POST', class='unstyled-form', onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?');")
               button.btn.btn-danger(type='submit') Eliminar Tarea
 
           // Botón para volver a la lista de tareas

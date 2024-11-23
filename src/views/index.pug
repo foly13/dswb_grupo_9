@@ -7,11 +7,12 @@ html
     h1= title
     if error
       p(style="color:red")= error
-    form(method="POST" action="/")
+    form(id="loginForm")
       label Usuario:
-      input(type="text" name="username" required)
+      input(type="text" name="nombre" required)
       br
       label Contraseña:
-      input(type="password" name="password" required)
+      input(type="password" name="contraseña" required)
       br
       button(type="submit") Iniciar Sesión
+    script(src="/scripts/login.js")
