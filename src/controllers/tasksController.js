@@ -1,5 +1,3 @@
-const fs = require('fs').promises;
-const path = require('path');
 const mongoose = require('mongoose');
 
 const Task = require('../models/tasks');
@@ -7,32 +5,7 @@ const User = require('../models/users');
 const Priority = require('../models/priorities');
 const Status = require('../models/statuses');
 
-/* Funciones auxiliares para leer los datos de los archivos JSON
-const getTasks = async () => {
-	const data = await fs.readFile(tasksFilePath, 'utf-8');
-	return JSON.parse(data);
-};
-
-const getUsers = async () => {
-	const data = await fs.readFile(usersFilePath, 'utf-8');
-	return JSON.parse(data);
-};
-
-const getPriorities = async () => {
-	const data = await fs.readFile(prioritiesFilePath, 'utf-8');
-	return JSON.parse(data);
-};
-
-const getStatuses = async () => {
-	const data = await fs.readFile(statusesFilePath, 'utf-8');
-	return JSON.parse(data);
-};*/
-
-// Controladores para cada operación
-
-// Mostrar todas las tareas
 const taskController = {
-	// Mostrar todas las tareas con filtrado
 	getAllTasks: async (req, res) => {
 		try {
 			const tasks = await Task.find();
@@ -43,7 +16,10 @@ const taskController = {
 			const { estado, prioridad } = req.query;
 
 			let filteredTasks = tasks.map((task) => {
-				const user = users.find((user) => user.id === task.idResponsable);
+				const user = users.find(
+					(user) => user._id.equals(task.idResponsable) // Usamos .equals() para comparar ObjectIds
+				);
+
 				const priority = priorities.find(
 					(priority) => priority.id === task.idPrioridad
 				);
@@ -80,8 +56,6 @@ const taskController = {
 			res.status(500).send('Error al obtener las tareas');
 		}
 	},
-
-	// Mostrar detalles de una tarea
 	showTaskDetails: async (req, res) => {
 		try {
 			const task = await Task.findById(req.params.id);
@@ -92,7 +66,7 @@ const taskController = {
 			const statuses = await Status.find();
 
 			const responsable = users.find(
-				(user) => user.id === task.idResponsable
+				(user) => user._id.equals(task.idResponsable) // Usamos .equals() para comparar los ObjectIds
 			);
 			const prioridad = priorities.find(
 				(priority) => priority.id === task.idPrioridad
@@ -113,8 +87,6 @@ const taskController = {
 			);
 		}
 	},
-
-	// Mostrar formulario de edición
 	getEditTaskForm: async (req, res) => {
 		try {
 			const task = await Task.findById(req.params.id);
@@ -124,10 +96,9 @@ const taskController = {
 			const priorities = await Priority.find();
 			const statuses = await Status.find();
 
-			const areaUsers = users.filter((user) => user.area === task.Area);
 			res.render('edit-task', {
 				task,
-				users: areaUsers,
+				users,
 				priorities,
 				statuses,
 			});
@@ -136,7 +107,6 @@ const taskController = {
 		}
 	},
 
-	// Actualizar tarea
 	updateTask: async (req, res) => {
 		try {
 			const task = await Task.findById(req.params.id);
@@ -145,19 +115,16 @@ const taskController = {
 			const updatedTask = {
 				...task.toObject(),
 				...req.body,
-				idResponsable: parseInt(req.body.idResponsable, 10),
-				idPrioridad: parseInt(req.body.idPrioridad, 10),
-				idEstado: parseInt(req.body.idEstado, 10),
+				idResponsable: new mongoose.Types.ObjectId(req.body.idResponsable),
 			};
 
 			await Task.findByIdAndUpdate(req.params.id, updatedTask);
 			res.redirect('/tasks?message=Tarea actualizada con éxito');
 		} catch (error) {
+			console.log(error);
 			res.status(500).send('Error al actualizar la tarea');
 		}
 	},
-
-	// Eliminar tarea
 	deleteTask: async (req, res) => {
 		try {
 			const task = await Task.findByIdAndDelete(req.params.id);
@@ -168,8 +135,6 @@ const taskController = {
 			res.status(500).send('Error al eliminar la tarea');
 		}
 	},
-
-	// Mostrar formulario para crear nueva tarea
 	getNewTaskForm: async (req, res) => {
 		try {
 			const users = await User.find();
