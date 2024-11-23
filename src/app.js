@@ -67,12 +67,9 @@ app.listen(PORT, () => {
 const mongoose = require('mongoose');
 
 mongoose
-	.connect(
-		'mongodb+srv://grupo9:BackEnd@gestortareasdb.ie1iz.mongodb.net/?retryWrites=true&w=majority&appName=GestorTareasDB',
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		}
-	)
+	.connect(process.env.MONGODB_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
 	.then(() => console.log('Conectado a MongoDB Atlas'))
 	.catch((err) => console.error('Error de conexión:', err));
