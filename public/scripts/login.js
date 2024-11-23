@@ -16,11 +16,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 		const data = await response.json();
 
 		if (data.success) {
-			// Guardar el token en localStorage
-			localStorage.setItem('token', data.token);
-			localStorage.setItem('user', JSON.stringify(data.user));
-
-			// Redirigir según el rol
 			if (data.user.rol === 'admin') {
 				window.location.href = '/admin';
 			} else {

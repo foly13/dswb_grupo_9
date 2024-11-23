@@ -4,6 +4,8 @@ const path = require('path');
 const session = require('express-session');
 const PORT = 3000;
 const methodOverride = require('method-override');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 // Configuración de express-session
 app.use(
@@ -16,6 +18,7 @@ app.use(
 		},
 	})
 );
+app.use(cookieParser());
 
 //para usar los recursos estáticos
 app.use(express.static('public'));

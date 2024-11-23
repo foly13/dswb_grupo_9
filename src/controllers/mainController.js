@@ -2,8 +2,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/users');
 const bcrypt = require('bcryptjs');
 
-const JWT_SECRET = 'tu_secreto_clave';
-
 const mainController = {
 	renderLoginPage: (req, res) => {
 		res.render('index', { title: 'Inicio de Sesión' });
@@ -12,43 +10,59 @@ const mainController = {
 		const { nombre, contraseña } = req.body;
 
 		try {
-			// Buscar el usuario por nombre
-			const user = await User.findOne({ nombre: nombre });
+			const user = await User.findOne({ nombre });
 
 			if (user) {
-				// Comparar la contraseña proporcionada con la contraseña encriptada en la base de datos
 				const isMatch = await bcrypt.compare(contraseña, user.contraseña);
 
 				if (isMatch) {
-					// Crear un token JWT con los datos del usuario
-					const token = jwt.sign(
-						{
-							id: user._id,
-							nombre: user.nombre,
-							rol: user.rol,
-						},
-						JWT_SECRET,
-						{ expiresIn: '1h' }
-					);
-					return res.status(200).json({
-						success: true,
-						message: 'Inicio de sesión exitoso',
-						token,
-						user: {
-							id: user._id,
-							nombre: user.nombre,
-							rol: user.rol,
-						},
-					});
+					// Verificar si el rol del usuario es 'admin'
+					if (user.rol === 'admin') {
+						// Si el rol es 'admin', generar el token y guardarlo en la cookie
+						const token = jwt.sign(
+							{
+								id: user._id,
+								nombre: user.nombre,
+								rol: user.rol,
+							},
+							process.env.JWT_SECRET,
+							{ expiresIn: '1h' }
+						);
+
+						res.cookie('token', token, {
+							httpOnly: true, // Protege contra XSS
+							secure: process.env.NODE_ENV === 'production',
+							maxAge: 3600000,
+						});
+
+						return res.status(200).json({
+							success: true,
+							message: 'Inicio de sesión exitoso',
+							user: {
+								id: user._id,
+								nombre: user.nombre,
+								rol: user.rol,
+							},
+						});
+					} else {
+						// Si el usuario no es admin, redirigir a la página /home
+						return res.status(200).json({
+							success: true,
+							message: 'Inicio de sesión exitoso, redirigiendo a /home',
+							user: {
+								id: user._id,
+								nombre: user.nombre,
+								rol: user.rol,
+							},
+						});
+					}
 				} else {
-					// Si las contraseñas no coinciden
 					return res.status(401).json({
 						success: false,
 						message: 'Credenciales incorrectas',
 					});
 				}
 			} else {
-				// Si no se encuentra el usuario
 				return res.status(404).json({
 					success: false,
 					message: 'Usuario no encontrado',
